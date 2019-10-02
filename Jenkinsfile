@@ -61,7 +61,9 @@ pipeline {
               if kubectl get deployment | grep -q mysql-tester
               then
                 echo "Deployment found, updating..."
+                kubectl set image deployment/mysql-tester mysql-tester="$registry:$BUILD_NUMBER"
               else
+                echo "Deployment not found, creating for the first time..."
                 kubectl create deployment mysql-tester --image="$registry:$BUILD_NUMBER"
                 kubectl scale deployment mysql-tester --replicas=2
               fi
