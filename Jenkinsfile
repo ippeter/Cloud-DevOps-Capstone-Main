@@ -1,6 +1,6 @@
 pipeline {
   environment {
-    registry = "ippeter/mysql_tester"
+    registry = "ippeter/mysql-tester"
     registryCredential = 'dockerhub'
   }
   
@@ -9,7 +9,7 @@ pipeline {
   stages {
     stage('Lint Python') {
       steps {
-        sh 'pylint --disable=R,C,W1203 mysql_tester.py'
+        sh 'pylint --disable=R,C,W1203 mysql-tester.py'
       }
     }
 
@@ -34,7 +34,7 @@ pipeline {
     }
     
     stage('Push Image') {
-      steps{
+      steps {
         script {
           docker.withRegistry( '', registryCredential ) {
             dockerImage.push()
@@ -42,5 +42,17 @@ pipeline {
         }
       }
     }
+
+    stage('Deploy Image') {
+      steps {
+        sh '''
+          if kubectl get deploy | grep -q mysql-tester
+          then
+            echo "Deployment found, updating..."
+          fi
+        '''
+      }
+    }
+
   }
 }
