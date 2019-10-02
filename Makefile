@@ -10,6 +10,9 @@ jenkins:
 	pip install --upgrade pip
 	pip install pylint
 	apt-get install -y tidy
+	curl -LO https://github.com/hadolint/hadolint/releases/download/v1.17.2/hadolint-Linux-x86_64
+	chmod +x hadolint-Linux-x86_64
+	mv hadolint-Linux-x86_64 /usr/local/bin/hadolint
 	@echo -e "\nalias h=history" >> ~/.bashrc
 	@echo -e "\nJenkins installation finished.\n"
 
@@ -25,7 +28,7 @@ minikube:
 	curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.14.4/bin/linux/amd64/kubectl
 	chmod +x kubectl
 	mv kubectl /usr/bin
-	curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+	curl -LO minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
 	chmod +x minikube
 	install minikube /usr/local/bin
 	minikube start --vm-driver=none --kubernetes-version v1.14.4
