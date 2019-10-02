@@ -1,7 +1,14 @@
-jenkins:
-	# Install Jenkins
+docker:
+	# Install Docker
 	apt-get update
 	apt-get upgrade -y
+	curl -fsSL https://get.docker.com/ | sh
+	systemctl enable docker
+	systemctl start docker
+	@echo -e "\nDicker installation finished.\n"
+
+jenkins:
+	# Install Jenkins
 	apt install -y default-jdk
 	wget -q -O - https://pkg.jenkins.io/debian/jenkins.io.key | apt-key add -
 	sh -c 'echo deb https://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
@@ -13,15 +20,10 @@ jenkins:
 	curl -LO https://github.com/hadolint/hadolint/releases/download/v1.17.2/hadolint-Linux-x86_64
 	chmod +x hadolint-Linux-x86_64
 	mv hadolint-Linux-x86_64 /usr/local/bin/hadolint
+	usermod -a -G docker jenkins
+	systemctl restart jenkins
 	@echo -e "\nalias h=history" >> ~/.bashrc
 	@echo -e "\nJenkins installation finished.\n"
-
-docker:
-	# Install Docker
-	curl -fsSL https://get.docker.com/ | sh
-	systemctl enable docker
-	systemctl start docker
-	@echo -e "\nDicker installation finished.\n"
 
 minikube:
 	# Install Minikube
