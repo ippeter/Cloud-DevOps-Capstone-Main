@@ -1,0 +1,3 @@
+Flask
+wtforms
+mysql-connector-python
