@@ -1,5 +1,5 @@
 pipeline {
-  agent any
+  agent { dockerfile true }
   stages {
     stage('Lint Python') {
       steps {
@@ -14,6 +14,11 @@ pipeline {
     stage('Lint Dockerfile') {
       steps {
         sh 'hadolint --ignore DL3013 Dockerfile'
+      }
+    }
+    stage('Build Image') {
+      steps {
+        def dockerImage = docker.build("mysql_tester:${env.BUILD_ID}")
       }
     }
   }
