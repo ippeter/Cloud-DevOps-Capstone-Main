@@ -39,3 +39,13 @@ minikube:
 	@echo -e "\nalias k=kubectl" >> ~/.bashrc
 	@echo -e "\nsource <(kubectl completion bash | sed s/kubectl/k/g)" >> ~/.bashrc
 
+helm:
+	# Install Helm
+	curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get > get_helm.sh
+	chmod 700 get_helm.sh
+	./get_helm.sh
+	kubectl create serviceaccount -n kube-system tiller
+	kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
+	helm init --service-account tiller
+	@kubectl --namespace kube-system get pods | grep tiller
+
