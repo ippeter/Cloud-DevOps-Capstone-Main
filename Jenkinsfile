@@ -1,33 +1,20 @@
-pipeline {
-  agent { dockerfile true }
+node {
+  checkout scm
   
-  stages {
-    stage('Lint Python') {
-      steps {
-        sh 'pylint --disable=R,C,W1203 mysql_tester.py'
-      }
+  stage('Lint Python') {
+    sh 'pylint --disable=R,C,W1203 mysql_tester.py'
     }
-    
-    stage('Lint HTML') {
-      steps {
-        sh 'tidy -q -e hello.html'
-      }
-    }
-    
-    stage('Lint Dockerfile') {
-      steps {
-        sh 'hadolint --ignore DL3013 Dockerfile'
-      }
-    }
-    
-    stage('Build Image') {
-      steps {
-        node {
-          checkout scm
 
-          def dockerImage = docker.build("mysql_tester:${env.BUILD_ID}")
-        }
-      }
-    }
+  stage('Lint HTML') {
+    sh 'tidy -q -e hello.html'
   }
+
+  stage('Lint Dockerfile') {
+    sh 'hadolint --ignore DL3013 Dockerfile'
+  }
+
+  stage('Build Image') {
+    def dockerImage = docker.build("mysql_tester:${env.BUILD_ID}")
+  }
+
 }
