@@ -1,10 +1,10 @@
 pipeline {
   environment {
-    registry = "ippeter/mssql_tester"
+    registry = "ippeter/mysql_tester"
     registryCredential = 'dockerhub'
   }
   
-  agent { dockerfile true }
+  agent any
   
   stages {
     stage('Lint Python') {
