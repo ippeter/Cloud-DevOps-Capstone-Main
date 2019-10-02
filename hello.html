@@ -8,17 +8,16 @@
 {% with messages = get_flashed_messages(with_categories=true) %}
 
   {% if messages %}
-    <ul>
     {% for message in messages %}
       {% if loop.index == 1 %}
         <h1 align="center">Welcome to the server {{ message[1] }}</h1>
       {% elif loop.index == 2 %}
         <h2 align="center">{{ message[1] }}</h2>
+	<hr>
       {% else %}
-        <li><h3>{{ message[1] }}</h3></li>
+        <h3 align="center">&rarr;&nbsp;{{ message[1] }}</h3>
       {% endif %}
     {% endfor %}
-    </ul>
   {% endif %}
 {% endwith %}
 
