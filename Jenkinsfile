@@ -21,10 +21,12 @@ pipeline {
     }
     
     stage('Build Image') {
-      node {
-        checkout scm
-        
-        def dockerImage = docker.build("mysql_tester:${env.BUILD_ID}")
+      steps {
+        node {
+          checkout scm
+
+          def dockerImage = docker.build("mysql_tester:${env.BUILD_ID}")
+        }
       }
     }
   }
