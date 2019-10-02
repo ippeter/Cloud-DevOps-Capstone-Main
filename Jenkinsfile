@@ -1,20 +1,46 @@
-node {
-  checkout scm
+pipeline {
+  environment {
+    registry = "ippeter/mysql_tester"
+    registryCredential = 'dockerhub'
+  }
   
-  stage('Lint Python') {
-    sh 'pylint --disable=R,C,W1203 mysql_tester.py'
+  agent any
+  
+  stages {
+    stage('Lint Python') {
+      steps {
+        sh 'pylint --disable=R,C,W1203 mysql_tester.py'
+      }
     }
 
-  stage('Lint HTML') {
-    sh 'tidy -q -e hello.html'
-  }
+    stage('Lint HTML') {
+      steps {
+        sh 'tidy -q -e hello.html'
+      }
+    }
 
-  stage('Lint Dockerfile') {
-    sh 'hadolint --ignore DL3013 Dockerfile'
-  }
+    stage('Lint Dockerfile') {
+      steps {
+        sh 'hadolint --ignore DL3013 Dockerfile'
+      }
+    }
 
-  stage('Build Image') {
-    def dockerImage = docker.build("mysql_tester:${env.BUILD_ID}")
+    stage('Build Image') {
+      steps {
+        script {
+          dockerImage = docker.build registry + ":$BUILD_NUMBER"
+        }
+      }
+    }
+    
+    stage('Push Image') {
+      steps{
+        script {
+          docker.withRegistry( '', registryCredential ) {
+            dockerImage.push()
+          }
+        }
+      }
+    }
   }
-
 }
