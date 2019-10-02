@@ -33,6 +33,7 @@ minikube:
 	curl -LO minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
 	chmod +x minikube
 	install minikube /usr/local/bin
+	apt-get install socat -y
 	minikube start --vm-driver=none --kubernetes-version v1.14.4
 	@kubectl cluster-info
 	@echo -e "\nalias k=kubectl" >> ~/.bashrc
