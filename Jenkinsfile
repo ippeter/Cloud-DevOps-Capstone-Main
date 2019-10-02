@@ -43,11 +43,11 @@ pipeline {
       }
     }
 
-    stage('Check Minikube') {
+    stage('Check Minikube Connection') {
       steps {
         script {
           withKubeConfig([credentialsId: 'JenkinsToken', serverUrl: 'https://192.168.0.215:8443']) {
-            sh 'kubectl -n default get deployment'
+            sh 'kubectl get deployment'
           }
         }
       }
@@ -55,15 +55,19 @@ pipeline {
 
     stage('Deploy Image') {
       steps {
-        sh '''
-          if kubectl get deployment | grep -q mysql-tester
-          then
-            echo "Deployment found, updating..."
-          else
-            kubectl create deployment mysql-tester --image=$dockerImage
-            kubectl scale deployment mysql-tester --replicas=2
-          fi
-        '''
+        script {
+          withKubeConfig([credentialsId: 'JenkinsToken', serverUrl: 'https://192.168.0.215:8443']) {
+            sh '''
+              if kubectl get deployment | grep -q mysql-tester
+              then
+                echo "Deployment found, updating..."
+              else
+                kubectl create deployment mysql-tester --image=$dockerImage
+                kubectl scale deployment mysql-tester --replicas=2
+              fi
+            '''
+          }
+        }
       }
     }
 
