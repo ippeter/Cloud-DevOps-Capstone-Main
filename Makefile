@@ -7,14 +7,18 @@ jenkins:
 	sh -c 'echo deb https://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
 	apt-get update
 	apt-get install -y jenkins
-	@echo "\nalias h=history" >> ~/.bashrc
-	@echo "\nJenkins installation finished.\n"
+	@echo -e "\nalias h=history" >> ~/.bashrc
+	@echo -e "\nJenkins installation finished.\n"
 
-minikube:
-	# Install Docker and Minikube
+docker:
+	# Install Docker
 	curl -fsSL https://get.docker.com/ | sh
 	systemctl enable docker
 	systemctl start docker
+	@echo -e "\nDicker installation finished.\n"
+
+minikube:
+	# Install Minikube
 	curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.14.4/bin/linux/amd64/kubectl
 	chmod +x kubectl
 	mv kubectl /usr/bin
@@ -24,7 +28,6 @@ minikube:
 	install minikube /usr/local/bin
 	minikube start --vm-driver=none --kubernetes-version v1.14.4
 	@kubectl cluster-info
-	@echo "\nalias k=kubectl" >> ~/.bashrc
-	@echo "\nsource <(kubectl completion bash | sed s/kubectl/k/g)" >> ~/.bashrc
-	@echo "\nMinikube installation finished.\n"
+	@echo -e "\nalias k=kubectl" >> ~/.bashrc
+	@echo -e "\nsource <(kubectl completion bash | sed s/kubectl/k/g)" >> ~/.bashrc
 
