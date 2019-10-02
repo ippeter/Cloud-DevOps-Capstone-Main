@@ -62,7 +62,7 @@ pipeline {
               then
                 echo "Deployment found, updating..."
               else
-                kubectl create deployment mysql-tester --image=$dockerImage
+                kubectl create deployment mysql-tester --image="$registry:$BUILD_NUMBER"
                 kubectl scale deployment mysql-tester --replicas=2
               fi
             '''
