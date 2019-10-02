@@ -4,7 +4,7 @@ pipeline {
     registryCredential = 'dockerhub'
   }
   
-  agent ( dockerfile true }
+  agent { dockerfile true }
   
   stages {
     stage('Lint Python') {
