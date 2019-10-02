@@ -18,7 +18,6 @@ minikube:
 	curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.14.4/bin/linux/amd64/kubectl
 	chmod +x kubectl
 	mv kubectl /usr/bin
-	@kubectl version
 	curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
 	chmod +x minikube
 	install minikube /usr/local/bin
