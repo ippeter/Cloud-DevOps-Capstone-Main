@@ -7,6 +7,8 @@ jenkins:
 	sh -c 'echo deb https://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
 	apt-get update
 	apt-get install -y jenkins
+	pip install --upgrade pip
+	pip install pylint
 	@echo -e "\nalias h=history" >> ~/.bashrc
 	@echo -e "\nJenkins installation finished.\n"
 

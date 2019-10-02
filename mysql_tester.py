@@ -2,8 +2,8 @@ import mysql.connector
 import re
 import socket
 
-from flask import Flask, jsonify, request, render_template, flash
-from wtforms import Form, TextField, TextAreaField, validators, StringField, SubmitField
+from flask import Flask, request, render_template, flash
+from wtforms import Form, TextField, validators
 
 
 class ReusableForm(Form):
@@ -31,7 +31,7 @@ def hello():
  
         if (form.validate()):
             # Check if the IP address format is ok
-            m = re.search('^[1-2]?\d{1,2}\.[1-2]?\d{1,2}\.[1-2]?\d{1,2}\.[1-2]?\d{1,2}$', rds_ip)
+            m = re.search(r'^[1-2]?\d{1,2}\.[1-2]?\d{1,2}\.[1-2]?\d{1,2}\.[1-2]?\d{1,2}$', rds_ip)
             
             if (m):
                 flash('RDS IP is: ' + rds_ip)
