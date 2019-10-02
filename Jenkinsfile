@@ -47,7 +47,7 @@ pipeline {
       steps {
         script {
           withKubeConfig([credentialsId: 'JenkinsToken', serverUrl: 'https://192.168.0.215:8443']) {
-            sh 'kubectl cluster-info'
+            sh 'kubectl -n default get deployment'
           }
         }
       }
