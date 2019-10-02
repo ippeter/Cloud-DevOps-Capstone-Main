@@ -46,9 +46,12 @@ pipeline {
     stage('Deploy Image') {
       steps {
         sh '''
-          if kubectl get deploy | grep -q mysql-tester
+          if kubectl get deployment | grep -q mysql-tester
           then
             echo "Deployment found, updating..."
+          else
+            kubectl create deployment mysql-tester --image=$dockerImage
+            kubectl scale deployment mysql-tester --replicas=2
           fi
         '''
       }
