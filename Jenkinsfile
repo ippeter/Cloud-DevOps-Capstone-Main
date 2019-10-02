@@ -43,6 +43,12 @@ pipeline {
       }
     }
 
+    stage('Check Minikube') {
+      withKubeConfig([credentialsId: 'JenkinsToken', serverUrl: 'https://192.168.0.215:8443']) {
+        sh 'kubectl cluster-info'
+      }
+    }
+
     stage('Deploy Image') {
       steps {
         sh '''
