@@ -11,5 +11,10 @@ pipeline {
         sh 'tidy -q -e hello.html'
       }
     }
+    stage('Lint Dockerfile') {
+      steps {
+        sh 'hadolint --ignore DL3013'
+      }
+    }
   }
 }
