@@ -9,6 +9,7 @@ jenkins:
 	apt-get install -y jenkins
 	pip install --upgrade pip
 	pip install pylint
+	apt-get install -y tidy
 	@echo -e "\nalias h=history" >> ~/.bashrc
 	@echo -e "\nJenkins installation finished.\n"
 
