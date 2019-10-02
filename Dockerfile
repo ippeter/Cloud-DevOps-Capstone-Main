@@ -1,12 +1,13 @@
 FROM python:2.7.16-alpine3.9
 
-WORKDIR /root
-
-RUN pip install --upgrade pip && pip install --trusted-host pypi.python.org -r requirements.txt
+WORKDIR /app
 
 RUN mkdir templates
-COPY hello.html templates/hello.html
-COPY mysql_tester.py mysql_tester.py
+COPY hello.html templates/
+COPY mysql_tester.py .
+COPY requirements.txt .
+
+RUN pip install --upgrade pip && pip install --trusted-host pypi.python.org -r requirements.txt
 
 ENV FLASK_APP mysql_tester.py
 
