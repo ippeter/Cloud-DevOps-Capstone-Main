@@ -1,7 +1,21 @@
-docker:
-	# Install Docker
+general:
+	# Install general requirements
 	apt-get update
 	apt-get upgrade -y
+	pip install --upgrade pip
+	pip install pylint
+	apt-get install -y tidy
+	apt-get install -y jq
+	curl -LO https://github.com/hadolint/hadolint/releases/download/v1.17.2/hadolint-Linux-x86_64
+	chmod +x hadolint-Linux-x86_64
+	mv hadolint-Linux-x86_64 /usr/local/bin/hadolint
+
+amazon:
+	# AWS specific packages
+	pip3 install awscli --upgrade --user
+
+docker:
+	# Install Docker
 	curl -fsSL https://get.docker.com/ | sh
 	systemctl enable docker
 	systemctl start docker
@@ -14,12 +28,6 @@ jenkins:
 	sh -c 'echo deb https://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
 	apt-get update
 	apt-get install -y jenkins
-	pip install --upgrade pip
-	pip install pylint
-	apt-get install -y tidy
-	curl -LO https://github.com/hadolint/hadolint/releases/download/v1.17.2/hadolint-Linux-x86_64
-	chmod +x hadolint-Linux-x86_64
-	mv hadolint-Linux-x86_64 /usr/local/bin/hadolint
 	usermod -a -G docker jenkins
 	systemctl restart jenkins
 	@echo -e "\nalias h=history" >> ~/.bashrc
