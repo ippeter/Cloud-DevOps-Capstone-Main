@@ -2,17 +2,28 @@ general:
 	# Install general requirements
 	apt-get update
 	apt-get upgrade -y
-	pip install --upgrade pip
-	pip install pylint
+	apt-get install -y python3-pip
+	pip3 install pylint
 	apt-get install -y tidy
 	apt-get install -y jq
 	curl -LO https://github.com/hadolint/hadolint/releases/download/v1.17.2/hadolint-Linux-x86_64
 	chmod +x hadolint-Linux-x86_64
 	mv hadolint-Linux-x86_64 /usr/local/bin/hadolint
+	# Install kubectl
+	curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.14.4/bin/linux/amd64/kubectl
+	chmod +x kubectl
+	mv kubectl /usr/bin
+	@echo -e "\nalias h=history" >> ~/.bashrc
+	@echo -e "\nalias k=kubectl" >> ~/.bashrc
+	@echo -e "\nsource <(kubectl completion bash | sed s/kubectl/k/g)" >> ~/.bashrc
 
 amazon:
 	# AWS specific packages
-	pip3 install awscli --upgrade --user
+	pip3 install awscli
+	# Install eksctl
+	curl --silent --location "https://github.com/weaveworks/eksctl/releases/download/latest_release/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
+	sudo mv /tmp/eksctl /usr/local/bin
+	@eksctl version
 
 docker:
 	# Install Docker
@@ -30,22 +41,16 @@ jenkins:
 	apt-get install -y jenkins
 	usermod -a -G docker jenkins
 	systemctl restart jenkins
-	@echo -e "\nalias h=history" >> ~/.bashrc
 	@echo -e "\nJenkins installation finished.\n"
 
 minikube:
 	# Install Minikube
-	curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.14.4/bin/linux/amd64/kubectl
-	chmod +x kubectl
-	mv kubectl /usr/bin
 	curl -LO minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
 	chmod +x minikube
 	install minikube /usr/local/bin
 	apt-get install socat -y
 	minikube start --vm-driver=none --kubernetes-version v1.14.4
 	@kubectl cluster-info
-	@echo -e "\nalias k=kubectl" >> ~/.bashrc
-	@echo -e "\nsource <(kubectl completion bash | sed s/kubectl/k/g)" >> ~/.bashrc
 
 helm:
 	# Install Helm
