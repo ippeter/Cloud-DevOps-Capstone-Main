@@ -64,6 +64,16 @@ pipeline {
       }
     }
     
+    /*
+    stage('Create External Service') {
+      steps {
+        withAWS(region:'us-west-2', credentials:'aws-final') {
+          sh 'kubectl create -f /capstone/external-service.yaml'
+        }
+      }
+    } 
+    */
+    
     stage('Get RDS Endpoint') {
       steps {
         withAWS(region:'us-west-2', credentials:'aws-final') {
