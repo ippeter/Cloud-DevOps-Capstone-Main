@@ -35,7 +35,7 @@ def hello():
 
             # Open connection to the mysql server
             host_ip = os.environ[rds_ip.upper() + "_SERVICE_HOST"]
-            print("Target service IP address is ", host_ip
+            print("Target service IP address is ", host_ip)
                   
             conn = mysql.connector.connect(host=host_ip, user='admin', password='Huawei@12')
             cursor = conn.cursor()
