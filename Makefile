@@ -30,7 +30,7 @@ docker:
 	curl -fsSL https://get.docker.com/ | sh
 	systemctl enable docker
 	systemctl start docker
-	@echo -e "\nDicker installation finished.\n"
+	@echo -e "\nDocker installation finished.\n"
 
 jenkins:
 	# Install Jenkins
