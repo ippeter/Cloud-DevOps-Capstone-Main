@@ -1,0 +1,39 @@
+Description:
+    Final Project RDS instance creation, Peter Predtechensky
+
+Resources:
+
+    FinalProjectDBSubnetGroup:
+        Type: AWS::RDS::DBSubnetGroup
+        Properties: 
+            DBSubnetGroupName: FinalProjectDBSubnetGroup
+            DBSubnetGroupDescription: FinalProjectDBSubnetGroup
+            SubnetIds: 
+                - subnet-09a7c242cf65d471e
+                - subnet-00e5fd9c6218fadea
+
+    FinalProjectRDS:
+        Type: AWS::RDS::DBInstance
+        DependsOn: FinalProjectDBSubnetGroup
+        Properties: 
+            AllocatedStorage: 10
+            DBInstanceClass: db.t2.micro
+            DBInstanceIdentifier: finalprojectrds
+            DBName: pedro
+            DBSubnetGroupName: FinalProjectDBSubnetGroup
+            Engine: MySQL
+            MasterUsername: admin
+            MasterUserPassword: ChangeMe12
+            MultiAZ: false
+            PubliclyAccessible: false
+            VPCSecurityGroups: 
+                - sg-05bc8a87b0629113f
+
+Outputs:
+
+    # This is how one gets it: aws cloudformation describe-stacks --stack-name rds --query Stacks[0].Outputs[0].OutputValue
+    RDSEndpoint:
+        Value: !GetAtt FinalProjectRDS.Endpoint.Address
+        Description: RDS Instance Endpoint
+        Export:
+            Name: FinalProjectRDSEndpoint
