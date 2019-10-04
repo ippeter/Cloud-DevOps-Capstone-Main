@@ -13,9 +13,9 @@ general:
 	curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.14.4/bin/linux/amd64/kubectl
 	chmod +x kubectl
 	mv kubectl /usr/bin
-	@echo -e "\nalias h=history" >> ~/.bashrc
-	@echo -e "\nalias k=kubectl" >> ~/.bashrc
-	@echo -e "\nsource <(kubectl completion bash | sed s/kubectl/k/g)" >> ~/.bashrc
+	@echo "\nalias h=history" >> ~/.bashrc
+	@echo "\nalias k=kubectl" >> ~/.bashrc
+	@echo "\nsource <(kubectl completion bash | sed s/kubectl/k/g)" >> ~/.bashrc
 
 amazon:
 	# AWS specific packages
@@ -30,7 +30,7 @@ docker:
 	curl -fsSL https://get.docker.com/ | sh
 	systemctl enable docker
 	systemctl start docker
-	@echo -e "\nDocker installation finished.\n"
+	@echo "\nDocker installation finished.\n"
 
 jenkins:
 	# Install Jenkins
@@ -41,7 +41,7 @@ jenkins:
 	apt-get install -y jenkins
 	usermod -a -G docker jenkins
 	systemctl restart jenkins
-	@echo -e "\nJenkins installation finished.\n"
+	@echo "\nJenkins installation finished.\n"
 
 minikube:
 	# Install Minikube
