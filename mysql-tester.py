@@ -1,5 +1,6 @@
 """
 Main Application which lists databases in the AWS RDS instance
+It uses Kubernetes External service to reach RDS
 """
 
 import mysql.connector
