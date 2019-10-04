@@ -1,3 +1,7 @@
+"""
+Main Application which lists databases in the AWS RDS instance
+"""
+
 import mysql.connector
 import socket
 import os
