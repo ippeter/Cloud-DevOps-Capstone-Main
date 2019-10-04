@@ -43,20 +43,10 @@ pipeline {
       }
     }
 
-    stage('Check Minikube Connection') {
-      steps {
-        script {
-          withKubeConfig([credentialsId: 'JenkinsToken', serverUrl: 'https://192.168.0.215:8443']) {
-            sh 'kubectl get deployment'
-          }
-        }
-      }
-    }
-
     stage('Deploy Image') {
       steps {
         script {
-          withKubeConfig([credentialsId: 'JenkinsToken', serverUrl: 'https://192.168.0.215:8443']) {
+          withAWS(region:'us-west-2', credentials:'aws-final') {
             sh '''
               if kubectl get deployment | grep -q mysql-tester
               then
