@@ -1,13 +1,14 @@
 import mysql.connector
 import re
 import socket
+import os
 
 from flask import Flask, request, render_template, flash
 from wtforms import Form, TextField, validators
 
 
 class ReusableForm(Form):
-    rds_ip = TextField('IP Address of RDS Instance:', validators=[validators.DataRequired()])
+    rds_ip = TextField('RDS Service Name:', validators=[validators.DataRequired()])
 
 
 # Instantiate our Node
@@ -30,27 +31,24 @@ def hello():
         rds_ip = request.form['rds_ip']
  
         if (form.validate()):
-            # Check if the IP address format is ok
-            m = re.search(r'^[1-2]?\d{1,2}\.[1-2]?\d{1,2}\.[1-2]?\d{1,2}\.[1-2]?\d{1,2}$', rds_ip)
-            
-            if (m):
-                flash('RDS IP is: ' + rds_ip)
-                
-                # Open connection to the mysql server
-                conn = mysql.connector.connect(host=rds_ip, user='root', password='Huawei@12')
-                cursor = conn.cursor()
+            flash('RDS Service Name is: ' + rds_ip)
 
-                query = ("SHOW DATABASES")
+            # Open connection to the mysql server
+            host_ip = os.environ[rds_ip.upper() + "_SERVICE_HOST"]
+            print("Target service IP address is ", host_ip
+                  
+            conn = mysql.connector.connect(host=host_ip, user='admin', password='Huawei@12')
+            cursor = conn.cursor()
 
-                cursor.execute(query)
+            query = ("SHOW DATABASES")
 
-                for item in cursor:
-                    flash(item[0])
+            cursor.execute(query)
 
-                cursor.close()
-                conn.close()
-            else:
-                flash("Please enter a valid IP address.")
+            for item in cursor:
+                flash(item[0])
+
+            cursor.close()
+            conn.close()
         else:
             flash('All the form fields are required. ')
  
