@@ -36,7 +36,7 @@ def hello():
             host_ip = os.environ[rds_ip.upper() + "_SERVICE_HOST"]
             print("Target service IP address is ", host_ip)
                   
-            conn = mysql.connector.connect(host=host_ip, user='admin', password='Huawei@12')
+            conn = mysql.connector.connect(host=host_ip, user='admin', password='ChangeMe12')
             cursor = conn.cursor()
 
             query = ("SHOW DATABASES")
