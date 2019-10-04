@@ -53,9 +53,10 @@ pipeline {
                 echo "Deployment found, updating..."
                 kubectl set image deployment/mysql-tester mysql-tester="$registry:$BUILD_NUMBER"
               else
-                echo "Deployment not found, creating for the first time..."
+                echo "Deployment not found, creating for the first time and exposing..."
                 kubectl create deployment mysql-tester --image="$registry:$BUILD_NUMBER"
                 kubectl scale deployment mysql-tester --replicas=2
+                kubectl expose deployment mysql-tester  --type=LoadBalancer --port=8081 --target-port=5000
               fi
             '''
           }
