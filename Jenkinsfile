@@ -62,6 +62,14 @@ pipeline {
         }
       }
     }
+    
+    stage('Get RDS Endpoint') {
+      steps {
+        withAWS(region:'us-west-2', credentials:'aws-final') {
+          sh 'aws cloudformation describe-stacks --stack-name rds --query Stacks[0].Outputs[0].OutputValue > /tmp/rds-endpoint.txt'
+        }
+      }
+    }   
 
   }
 }
