@@ -10,14 +10,26 @@
   {% if messages %}
     {% for message in messages %}
       {% if loop.index == 1 %}
-        <h1 align="center">Welcome to the server {{ message[1] }}</h1>
+	<div>
+	        <div align="center">
+			<p style="font-size: 2em;">Welcome to the server <b><font color="darkred">{{ message[1] }}</font></b></p>
       {% elif loop.index == 2 %}
-        <h2 align="center">{{ message[1] }}</h2>
-	<hr>
+      		</div>
+	</div>
+        <div align="center">
+		<p style="font-size: 1.5em;">RDS service host IP is <b><font color="seagreen">{{ message[1] }}</font></b></p>
+		<hr>
+	</div>
+	<div style="display: table; width: 100%;">
+		<div style="width: 30%; display: table-cell;">
+		</div>
+		<div style="width: 70%; display: table-cell;">
       {% else %}
-        <h3 align="center">&rarr;&nbsp;{{ message[1] }}</h3>
+        		<h3 align="left">&rarr;&nbsp;{{ message[1] }}</h3>
       {% endif %}
     {% endfor %}
+    		</div>
+        </div>
   {% endif %}
 {% endwith %}
 
@@ -25,13 +37,10 @@
         <form action="" method="post">
             {{ form.csrf }}
  
-            <div class="input text">
-                {{ form.rds_ip.label }} {{ form.rds_ip }}
-            </div>
- 
             <div class="input submit">
-                <input type="submit" value="Submit" />
+                <input type="submit" value="Get Databases" />
             </div>
+
         </form>
 	</div>
 

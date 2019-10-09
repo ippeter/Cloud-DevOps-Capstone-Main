@@ -28,33 +28,27 @@ def hello():
     
     # Proceed to the form
     form = ReusableForm(request.form)
- 
     print(form.errors)
     
     if (request.method == 'POST'):
-        rds_ip = request.form['rds_ip']
- 
-        if (form.validate()):
-            flash('RDS Service Name is: ' + rds_ip)
+        host_ip = os.environ["RDS_SERVICE_HOST"]
+        flash(host_ip)
 
-            # Open connection to the mysql server
-            host_ip = os.environ[rds_ip.upper() + "_SERVICE_HOST"]
-            print("Target service IP address is ", host_ip)
+        # Open connection to the mysql server
+        print("About to make a request to the target service IP of ", host_ip)
                   
-            conn = mysql.connector.connect(host=host_ip, user=os.environ["RDS_USER"], password=os.environ["RDS_PASS"])
-            cursor = conn.cursor()
+        conn = mysql.connector.connect(host=host_ip, user=os.environ["RDS_USER"], password=os.environ["RDS_PASS"])
+        cursor = conn.cursor()
 
-            query = ("SHOW DATABASES")
+        query = ("SHOW DATABASES")
 
-            cursor.execute(query)
+        cursor.execute(query)
 
-            for item in cursor:
-                flash(item[0])
+        for item in cursor:
+            flash(item[0])
 
-            cursor.close()
-            conn.close()
-        else:
-            flash('All the form fields are required. ')
+        cursor.close()
+        conn.close()
  
     return render_template('hello.html', form=form)
 
