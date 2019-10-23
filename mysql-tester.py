@@ -38,8 +38,11 @@ def hello():
             # Open connection to the mysql server
             host_ip = os.environ[rds_ip.upper() + "_SERVICE_HOST"]
             print("Target service IP address is ", host_ip)
+            
+            username = os.environ["RDS_USERNAME"]
+            password = os.environ["RDS_PASSWORD"]
                   
-            conn = mysql.connector.connect(host=host_ip, user='admin', password='ChangeMe12')
+            conn = mysql.connector.connect(host=host_ip, user=username, password=password)
             cursor = conn.cursor()
 
             query = ("SHOW DATABASES")
