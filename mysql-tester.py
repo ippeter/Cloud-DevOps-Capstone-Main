@@ -41,7 +41,7 @@ def hello():
         flash(host_ip)
 
         # Open connection to the mysql server
-        LOG.info("About to make a request to the target service IP of ", host_ip)
+        LOG.info("About to make a request to the target service IP of %s", host_ip)
                   
         conn = mysql.connector.connect(host=host_ip, user=os.environ["RDS_USER"], password=os.environ["RDS_PASS"])
         cursor = conn.cursor()
