@@ -6,9 +6,11 @@ It uses Kubernetes External service to reach RDS
 import mysql.connector
 import socket
 import os
+import logging
 
 from flask import Flask, request, render_template, flash
 from wtforms import Form, TextField, validators
+from flask.logging import create_logger
 
 
 class ReusableForm(Form):
@@ -17,6 +19,8 @@ class ReusableForm(Form):
 
 # Instantiate our Node
 app = Flask(__name__)
+LOG = create_logger(app)
+LOG.setLevel(logging.INFO)
 
 @app.route("/", methods=['GET', 'POST'])
 def hello():
@@ -33,7 +37,7 @@ def hello():
         flash(host_ip)
 
         # Open connection to the mysql server
-        print("About to make a request to the target service IP of ", host_ip)
+        LOG.info(f"About to make a request to the target service IP of {host_ip}")
                   
         conn = mysql.connector.connect(host=host_ip, user=os.environ["RDS_USER"], password=os.environ["RDS_PASS"])
         cursor = conn.cursor()
